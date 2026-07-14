@@ -20,7 +20,6 @@ import java.lang.reflect.Field;
 import org.eclipse.core.runtime.*;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.eclipse.osgi.service.debug.DebugOptionsListener;
-import org.eclipse.team.internal.core.InfiniteSubProgressMonitor;
 
 public class Policy {
 	public static PrintStream recorder;
@@ -70,7 +69,7 @@ public class Policy {
 			return new NullProgressMonitor();
 		if (monitor instanceof NullProgressMonitor)
 			return monitor;
-		return new InfiniteSubProgressMonitor(monitor, ticks);
+		return SubMonitor.convert(monitor, ticks);
 	}
 	
 	public static boolean isDebugProtocol() {
