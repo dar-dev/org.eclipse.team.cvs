@@ -122,10 +122,8 @@ public class RemoteFolderTreeBuilder {
 	public static RemoteFolder buildBaseTree(CVSRepositoryLocation repository, ICVSFolder root, CVSTag tag, IProgressMonitor progress) throws CVSException {
 		try {
 			RemoteFolderTreeBuilder builder = new RemoteFolderTreeBuilder(repository, root, tag);
-			progress.beginTask(null, 100);
-			IProgressMonitor subProgress = Policy.infiniteSubMonitorFor(progress, 100);
-			subProgress.beginTask(null, 512);  
-			subProgress.subTask(NLS.bind(CVSMessages.RemoteFolderTreeBuilder_buildingBase, new String[] { root.getName() })); 
+			IProgressMonitor subProgress = Policy.infiniteSubMonitorFor(progress, 512);
+			subProgress.subTask(NLS.bind(CVSMessages.RemoteFolderTreeBuilder_buildingBase, new String[] { root.getName() }));
 			return builder.buildBaseTree(null, root, subProgress);
 		} finally {
 			progress.done();
@@ -244,8 +242,7 @@ public class RemoteFolderTreeBuilder {
 		}
 		try {
 			// Set up an infinite progress monitor for the recursive build
-			IProgressMonitor subProgress = Policy.infiniteSubMonitorFor(monitor, 90);
-			subProgress.beginTask(null, 512);
+			IProgressMonitor subProgress = Policy.infiniteSubMonitorFor(monitor, 512);
 			// Build the remote tree
 			buildRemoteTree(session, root, remoteRoot, "", subProgress); //$NON-NLS-1$
 		} finally {

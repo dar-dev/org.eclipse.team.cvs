@@ -160,10 +160,8 @@ public class UpdateContentCachingService implements IUpdateMessageListener {
 					return true;
 				}
 			};
-			progress.beginTask(null, 100);
-			IProgressMonitor subProgress = Policy.infiniteSubMonitorFor(progress, 100);
-			subProgress.beginTask(null, 512);  
-			subProgress.subTask(NLS.bind(CVSMessages.RemoteFolderTreeBuilder_buildingBase, new String[] { root.getName() })); 
+			IProgressMonitor subProgress = Policy.infiniteSubMonitorFor(progress, 512);
+			subProgress.subTask(NLS.bind(CVSMessages.RemoteFolderTreeBuilder_buildingBase, new String[] { root.getName() }));
 			RemoteFolder tree = builder.buildBaseTree(null, root, subProgress);
 			if (tree == null) {
 				// The local tree is empty and was pruned.

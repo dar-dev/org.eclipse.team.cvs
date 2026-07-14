@@ -24,7 +24,8 @@ public class AllTestsCVSResources extends EclipseTest {
 		suite.addTest(EclipseFolderTest.suite());
 		suite.addTest(ResourceSyncBytesTest.suite());
 		suite.addTest(CVSURITest.suite());
-		return suite; 	
+		suite.addTest(PolicyTest.suite());
+		return suite;
 	}	
 	
 	public AllTestsCVSResources(String name) {

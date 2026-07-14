@@ -217,7 +217,8 @@ public class CVSTeamProvider extends RepositoryProvider {
 	}
 	
 	/*
-	 * This method expects to be passed an InfiniteSubProgressMonitor
+	 * This method allocates an unbounded amount of work to the monitor
+	 * passed to it, as the amount of work is not known in advance.
 	 */
 	public void setRemoteRoot(ICVSRepositoryLocation location, IProgressMonitor monitor) throws TeamException {
 
@@ -230,9 +231,7 @@ public class CVSTeamProvider extends RepositoryProvider {
 			workspaceRoot.getLocalRoot().run(progress -> {
 				try {
 					// 256 ticks gives us a maximum of 1024 which seems reasonable for folders is a project
-					progress.beginTask(null, 100);
-					final IProgressMonitor monitor1 = Policy.infiniteSubMonitorFor(progress, 100);
-					monitor1.beginTask(null, 256);  
+					final IProgressMonitor monitor1 = Policy.infiniteSubMonitorFor(progress, 256);
 
 					// Visit all the children folders in order to set the root in the folder sync info
 					workspaceRoot.getLocalRoot().accept(new ICVSResourceVisitor() {

@@ -270,11 +270,9 @@ abstract class AbstractStructureVisitor implements ICVSResourceVisitor {
 
 		// Create a progress monitor suitable for the visit
 		int resourceHint = 64;
-		monitor.beginTask(null, resourceHint);
 		this.monitor = Policy.infiniteSubMonitorFor(monitor, resourceHint);
 		try {
 			// Visit all the resources
-			this.monitor.beginTask(null, resourceHint);
 			session.setSendFileTitleKey(getSendFileMessage());
 			for (int i = 0; i < resourceList.size(); i++) {
 				resourceList.get(i).accept(this);

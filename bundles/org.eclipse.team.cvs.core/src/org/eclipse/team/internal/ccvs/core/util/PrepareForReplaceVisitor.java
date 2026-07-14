@@ -168,8 +168,7 @@ public class PrepareForReplaceVisitor implements ICVSResourceVisitor {
 		this.depth = depth;
 		deletedFiles = new HashSet();
 		CVSWorkspaceRoot.getCVSFolderFor(project).run(pm1 -> {
-			monitor = Policy.infiniteSubMonitorFor(pm1, 100);
-			monitor.beginTask(null, 512);
+			monitor = Policy.infiniteSubMonitorFor(pm1, 512);
 			for (ICVSResource resource : resources) {
 				if (oneArgMessage != null) {
 					monitor.subTask(NLS.bind(oneArgMessage, new String[]{resource.getIResource().getFullPath().toString()})); 

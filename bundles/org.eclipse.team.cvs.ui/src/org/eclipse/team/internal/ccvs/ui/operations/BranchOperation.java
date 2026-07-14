@@ -205,17 +205,17 @@ public class BranchOperation extends RepositoryProviderOperation {
 	
 	/*
 	 * This method sets the tag for a project.
-	 * It expects to be passed an InfiniteSubProgressMonitor
+	 * It allocates an unbounded amount of work to the monitor passed to it,
+	 * as the amount of work is not known in advance.
 	 */
 	private void setTag(final CVSTeamProvider provider, final IResource[] resources, final CVSTag tag, final boolean recurse, IProgressMonitor monitor) throws TeamException {
 		getLocalRoot(provider).run(progress -> {
 			try {
 				// 512 ticks gives us a maximum of 2048 which seems reasonable for folders and
 				// files in a project
-				progress.beginTask(null, 100);
-				final IProgressMonitor monitor1 = Policy.infiniteSubMonitorFor(progress, 100);
-				monitor1.beginTask(NLS.bind(CVSUIMessages.CVSTeamProvider_folderInfo,
-						new String[] { provider.getProject().getName() }), 512);
+				final IProgressMonitor monitor1 = Policy.infiniteSubMonitorFor(progress, 512);
+				monitor1.setTaskName(NLS.bind(CVSUIMessages.CVSTeamProvider_folderInfo,
+						new String[] { provider.getProject().getName() }));
 
 				// Visit all the children folders in order to set the root in the folder sync
 				// info
