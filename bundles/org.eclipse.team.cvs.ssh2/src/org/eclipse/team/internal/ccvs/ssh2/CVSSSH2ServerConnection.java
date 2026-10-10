@@ -27,10 +27,10 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.team.internal.ccvs.core.ICVSRepositoryLocation;
 import org.eclipse.team.internal.ccvs.core.IServerConnection;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
-import org.eclipse.team.internal.core.streams.PollingInputStream;
-import org.eclipse.team.internal.core.streams.PollingOutputStream;
-import org.eclipse.team.internal.core.streams.TimeoutInputStream;
-import org.eclipse.team.internal.core.streams.TimeoutOutputStream;
+import org.eclipse.team.internal.ccvs.core.streams.PollingInputStream;
+import org.eclipse.team.internal.ccvs.core.streams.PollingOutputStream;
+import org.eclipse.team.internal.ccvs.core.streams.TimeoutInputStream;
+import org.eclipse.team.internal.ccvs.core.streams.TimeoutOutputStream;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;

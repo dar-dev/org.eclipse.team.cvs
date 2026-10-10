@@ -22,7 +22,7 @@ import org.eclipse.jsch.core.IJSchService;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.team.internal.ccvs.core.*;
 import org.eclipse.team.internal.ccvs.core.util.Util;
-import org.eclipse.team.internal.core.streams.*;
+import org.eclipse.team.internal.ccvs.core.streams.*;
 
 import com.jcraft.jsch.Proxy;
 

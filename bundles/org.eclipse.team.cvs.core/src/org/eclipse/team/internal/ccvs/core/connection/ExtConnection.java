@@ -22,10 +22,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.team.internal.ccvs.core.ICVSRepositoryLocation;
 import org.eclipse.team.internal.ccvs.core.IServerConnection;
 import org.eclipse.team.internal.ccvs.core.util.Util;
-import org.eclipse.team.internal.core.streams.PollingInputStream;
-import org.eclipse.team.internal.core.streams.PollingOutputStream;
-import org.eclipse.team.internal.core.streams.TimeoutInputStream;
-import org.eclipse.team.internal.core.streams.TimeoutOutputStream;
+import org.eclipse.team.internal.ccvs.core.streams.PollingInputStream;
+import org.eclipse.team.internal.ccvs.core.streams.PollingOutputStream;
+import org.eclipse.team.internal.ccvs.core.streams.TimeoutInputStream;
+import org.eclipse.team.internal.ccvs.core.streams.TimeoutOutputStream;
 
 /**
  * Implements a connection method which invokes an external tool to 

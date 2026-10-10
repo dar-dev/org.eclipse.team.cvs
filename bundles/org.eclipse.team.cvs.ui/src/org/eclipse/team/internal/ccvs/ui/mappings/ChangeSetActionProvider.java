@@ -365,7 +365,7 @@ public class ChangeSetActionProvider extends ResourceModelActionProvider {
 				if (containsOnlyUnassignedChanges(selection)) {
 					// only local unassigned changes
 					addToChangeSet = new MenuManager(
-							TeamUIMessages.ChangeLogModelProvider_13);
+							org.eclipse.team.internal.ccvs.ui.compat.TeamUIMessages.ChangeLogModelProvider_13);
 					appendToGroup(menu, CHANGE_SET_GROUP, addToChangeSet);
 				} else {
 					addToChangeSet = new MenuManager(

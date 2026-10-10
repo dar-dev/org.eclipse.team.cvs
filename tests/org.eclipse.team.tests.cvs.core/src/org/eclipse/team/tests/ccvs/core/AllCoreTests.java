@@ -42,6 +42,7 @@ public class AllCoreTests extends EclipseTest {
 		if (Util.isMac())
 			return suite;
 
+		suite.addTestSuite(CompatibilityTests.class);
 		suite.addTest(AllTestsCVSResources.suite());
 		suite.addTest(AllJschTests.suite());
 		return new TestSetup(suite);

@@ -38,7 +38,7 @@ import org.eclipse.team.internal.ccvs.core.connection.Connection;
 import org.eclipse.team.internal.ccvs.core.syncinfo.NotifyInfo;
 import org.eclipse.team.internal.ccvs.core.syncinfo.ResourceSyncInfo;
 import org.eclipse.team.internal.ccvs.core.util.Util;
-import org.eclipse.team.internal.core.streams.*;
+import org.eclipse.team.internal.ccvs.core.streams.*;
 
 /**
  * Maintains CVS communication state for the lifetime of a connection

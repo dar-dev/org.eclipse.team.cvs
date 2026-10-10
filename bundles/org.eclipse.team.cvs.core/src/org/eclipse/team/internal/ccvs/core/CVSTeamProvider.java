@@ -35,8 +35,8 @@ import org.eclipse.team.internal.ccvs.core.resources.CVSWorkspaceRoot;
 import org.eclipse.team.internal.ccvs.core.resources.EclipseSynchronizer;
 import org.eclipse.team.internal.ccvs.core.syncinfo.*;
 import org.eclipse.team.internal.ccvs.core.util.*;
-import org.eclipse.team.internal.core.streams.CRLFtoLFInputStream;
-import org.eclipse.team.internal.core.streams.LFtoCRLFInputStream;
+import org.eclipse.team.internal.ccvs.core.streams.CRLFtoLFInputStream;
+import org.eclipse.team.internal.ccvs.core.streams.LFtoCRLFInputStream;
 
 /**
  * CVS implementation of {@link RepositoryProvider}

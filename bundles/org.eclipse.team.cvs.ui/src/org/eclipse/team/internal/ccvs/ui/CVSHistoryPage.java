@@ -64,7 +64,7 @@ import org.eclipse.team.internal.ccvs.ui.actions.CVSAction;
 import org.eclipse.team.internal.ccvs.ui.actions.MoveRemoteTagAction;
 import org.eclipse.team.internal.ccvs.ui.operations.*;
 import org.eclipse.team.internal.core.history.LocalFileRevision;
-import org.eclipse.team.internal.ui.TeamUIMessages;
+import org.eclipse.team.internal.ccvs.ui.compat.TeamUIMessages;
 import org.eclipse.team.internal.ui.Utils;
 import org.eclipse.team.internal.ui.actions.*;
 import org.eclipse.team.internal.ui.history.*;
