@@ -4,14 +4,14 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$EclipseHome,
     [string]$JavaHome = $env:JAVA_HOME,
-    [string]$Qualifier = ((Get-Date -Format 'yyyyMMddHHmmss') + '-test')
+    [string]$Qualifier = (Get-Date -Format 'yyyyMMddHHmmss')
 )
 
 $ErrorActionPreference = 'Stop'
 if ($Qualifier -notmatch '^[A-Za-z0-9_-]+$') { throw 'Invalid OSGi version qualifier' }
 $repo = Split-Path $PSScriptRoot -Parent
 $EclipseHome = (Resolve-Path $EclipseHome).Path
-$root = Join-Path $repo "target/cvs-test-$Qualifier"
+$root = Join-Path $repo "target/cvs-$Qualifier"
 if (Test-Path $root) { throw "Build directory already exists: $root" }
 New-Item -ItemType Directory $root | Out-Null
 $classes = Join-Path $root 'classes'
@@ -122,8 +122,8 @@ try {
     & $java -jar $launcher -nosplash -consoleLog -configuration $config -data "$root/publisher-workspace" `
         -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher `
         -source $publisherInput -metadataRepository $repositoryUri -artifactRepository $repositoryUri `
-        -metadataRepositoryName 'CVS Eclipse 4.42 compatibility test' `
-        -artifactRepositoryName 'CVS Eclipse 4.42 compatibility test' -publishArtifacts -compress
+        -metadataRepositoryName 'CVS Eclipse 4.42 compatibility' `
+        -artifactRepositoryName 'CVS Eclipse 4.42 compatibility' -publishArtifacts -compress
     $code = $LASTEXITCODE
 } finally {
     $ErrorActionPreference = $previous
@@ -142,12 +142,12 @@ Copy-Item "$repo/tests" $sourcePayload -Recurse
 & $jar --create --file "$site/cvs-sources.zip" --no-manifest -C $sourcePayload .
 if ($LASTEXITCODE -ne 0) { throw 'Could not package sources' }
 [IO.File]::WriteAllText((Join-Path $site 'INSTALL.txt'), @"
-CVS Eclipse 4.42 compatibility test build
+CVS Eclipse 4.42 compatibility build
 Feature: org.eclipse.cvs $featureVersion
 
 In Eclipse: Help > Install New Software > Add > Archive, then select the update-site ZIP.
 Uncheck 'Group items by category' if the feature is not visible.
-This unsigned test build will prompt for trust confirmation. Restart after installation.
+This unsigned build will prompt for trust confirmation. Restart after installation.
 Use a backed-up or separate test workspace; live CVS integration has not been verified.
 Sources (EPL-2.0): cvs-sources.zip in this repository.
 "@, $utf8)

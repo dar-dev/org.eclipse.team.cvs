@@ -8,6 +8,8 @@ Update site URL: `https://storage.googleapis.com/eclipse-cvs-plugin/2026-09`
 
 ## Eclipse 4.42 compatibility
 
-CVS now retains the Team implementation classes removed from Eclipse 4.42 in
-its own internal packages. See [compatibility notes](docs/eclipse-4.42-compatibility.md)
-for details and local verification instructions.
+The descendant-variant cache now uses public Team byte-store APIs directly.
+Other removed Team helpers are still retained in CVS-owned internal packages
+while public-API migration continues. See
+[compatibility notes](docs/eclipse-4.42-compatibility.md) for details and local
+verification instructions.

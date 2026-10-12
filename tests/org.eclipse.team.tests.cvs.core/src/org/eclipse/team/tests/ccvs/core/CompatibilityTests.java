@@ -35,7 +35,7 @@ import org.eclipse.team.internal.ccvs.core.streams.PollingOutputStream;
 import org.eclipse.team.internal.ccvs.core.streams.SizeConstrainedInputStream;
 import org.eclipse.team.internal.ccvs.core.streams.TimeoutInputStream;
 import org.eclipse.team.internal.ccvs.core.streams.TimeoutOutputStream;
-import org.eclipse.team.internal.ccvs.core.syncinfo.DescendantResourceVariantByteStore;
+import org.eclipse.team.internal.ccvs.core.syncinfo.CVSDescendantResourceVariantByteStore;
 
 import junit.framework.TestCase;
 
@@ -44,12 +44,7 @@ public class CompatibilityTests extends TestCase {
 	private final IResource file = resource("file");
 	private final MemoryStore base = new MemoryStore();
 	private final MemoryStore remote = new MemoryStore();
-	private final DescendantResourceVariantByteStore store = new DescendantResourceVariantByteStore(base, remote) {
-		@Override
-		public boolean isVariantKnown(IResource resource) {
-			return remote.known.contains(resource);
-		}
-
+	private final CVSDescendantResourceVariantByteStore store = new TestCVSStore() {
 		@Override
 		protected boolean isDescendant(IResource resource, byte[] baseBytes, byte[] remoteBytes) {
 			return remoteBytes[0] > baseBytes[0];
@@ -111,6 +106,62 @@ public class CompatibilityTests extends TestCase {
 		store.dispose();
 		assertTrue(remote.disposed);
 		assertFalse(base.disposed);
+	}
+
+	private class TestCVSStore extends CVSDescendantResourceVariantByteStore {
+		TestCVSStore() {
+			super(base, remote);
+		}
+
+		@Override
+		public boolean isVariantKnown(IResource resource) {
+			return remote.known.contains(resource);
+		}
+
+		@Override
+		protected boolean parentHasSyncBytes(IResource resource) {
+			return true;
+		}
+	}
+
+	private static byte[] revision(String revision, String tag) {
+		return ("/file/" + revision + "///" + tag + "/").getBytes(StandardCharsets.UTF_8);
+	}
+
+	public void testCVSRevisionAndBranchSelection() throws Exception {
+		CVSDescendantResourceVariantByteStore cvs = new TestCVSStore();
+		base.setBytes(file, revision("1.2", ""));
+		remote.setBytes(file, revision("1.3", ""));
+		assertSame(remote.getBytes(file), cvs.getBytes(file));
+		remote.setBytes(file, revision("1.1", ""));
+		assertSame(base.getBytes(file), cvs.getBytes(file));
+		remote.setBytes(file, revision("1.3", "Tother"));
+		assertSame(base.getBytes(file), cvs.getBytes(file));
+		base.setBytes(file, revision("1.2.2.1", "Tbranch"));
+		remote.setBytes(file, revision("1.2.2.2", "Tbranch"));
+		assertSame(remote.getBytes(file), cvs.getBytes(file));
+	}
+
+	public void testEqualRevisionWithDifferentMetadataUsesBase() throws Exception {
+		CVSDescendantResourceVariantByteStore cvs = new TestCVSStore();
+		base.setBytes(file, revision("1.2", ""));
+		remote.setBytes(file, "/file/1.2/remote timestamp///".getBytes(StandardCharsets.UTF_8));
+		assertSame(base.getBytes(file), cvs.getBytes(file));
+	}
+
+	public void testSettingBaseBytesClearsKnownDeletion() throws Exception {
+		base.setBytes(file, new byte[] { 2 });
+		store.deleteBytes(file);
+		assertTrue(store.setBytes(file, base.getBytes(file)));
+		assertFalse(store.isVariantKnown(file));
+		assertSame(base.getBytes(file), store.getBytes(file));
+	}
+
+	public void testRemoteAndBaseMembersAreDeduplicated() throws Exception {
+		base.setBytes(file, new byte[] { 1 });
+		remote.setBytes(file, new byte[] { 2 });
+		assertEquals(1, store.members(file).length);
+		assertSame(file, store.members(file)[0]);
 	}
 
 	public void testLineEndingConversions() throws Exception {
@@ -180,6 +231,7 @@ public class CompatibilityTests extends TestCase {
 					case "hashCode": return System.identityHashCode(proxy);
 					case "equals": return proxy == args[0];
 					case "toString": return name;
+					case "getType": return IResource.FILE;
 					default: throw new UnsupportedOperationException(method.getName());
 					}
 				});
